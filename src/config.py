@@ -1,4 +1,4 @@
-chromeDriverPath='/Users/pablo/Documents/chromedriver-chromeversion72'
+chromeDriverPath='/bin/chromedriver'
 
 optionExpirationDates={
     'MY':'2020-5-15',
