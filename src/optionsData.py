@@ -39,6 +39,7 @@ def getStockPrice(soup):
 def writeOptionsCsv(price,optionsData,filePath):
     dataFile=open(filePath,'a+')
     for row in optionsData:
+        print(row)
         dataFile.write(f"{row[0]},{row[1]},{row[2]},{price},{dt.datetime.today()}\n")
     dataFile.close()
 
