@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 
 import datetime as dt
 
+today = dt.datetime.today()
+
 def getHtml(url):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -39,12 +41,12 @@ def getStockPrice(soup):
 def writeOptionsCsv(price,optionsData,filePath):
     dataFile=open(filePath,'a+')
     for row in optionsData:
-        dataFile.write(f"{row[0]},{row[1]},{row[2]},{price},{dt.datetime.today()}\n")
+        dataFile.write(f"{row[0]},{row[1]},{row[2]},{price},{today}\n")
     dataFile.close()
 
 def updateDataFile(filePath,url):
     source=getHtml(url)
-    soup=BeautifulSoup(source)
+    soup=BeautifulSoup(source, 'html.parser')
     optionsData=getOptionsData(soup)
     price=getStockPrice(soup)
     writeOptionsCsv(price,optionsData,filePath)
@@ -53,3 +55,5 @@ url='https://www.invertironline.com/titulo/cotizacion/BCBA/GGAL/GRUPO-FINANCIERO
 filePath='GGALoptions.txt'
 
 updateDataFile(filePath,url)
+
+print(f"Scraped: {today}")
