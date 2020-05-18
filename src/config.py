@@ -1,4 +1,4 @@
-chromeDriverPath='/bin/chromedriver'
+chromeDriverPath='/usr/bin/chromedriver'
 
 optionExpirationDates={
     'MY':'2020-5-15',
