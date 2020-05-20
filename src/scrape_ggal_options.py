@@ -1,11 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import config
 
 from bs4 import BeautifulSoup
 
-import datetime as dt
-
-today = dt.datetime.today()
+ggal_options_url='https://www.invertironline.com/titulo/cotizacion/BCBA/GGAL/GRUPO-FINANCIERO-GALICIA/opciones'
 
 def getHtml(driverPath, url):
     chrome_options = Options()
@@ -40,14 +39,16 @@ def getStockPrice(soup):
 def writeOptionsCsv(price,optionsData,filePath):
     dataFile=open(filePath,'a+')
     for row in optionsData:
-        dataFile.write(f"{row[0]},{row[1]},{row[2]},{price},{today}\n")
+        dataFile.write(f"{row[0]},{row[1]},{row[2]},{price},{config.today}\n")
     dataFile.close()
 
-def scrapeGGALOptions(driverPath,dumpFilePath,url):
-    print(f"[{today}][SCRAPING]: GGAL OPTIONS")
-    source=getHtml(driverPath, url)
+def scrapeGGALOptions():
+    print(f"[{config.today}][SCRAPING]: GGAL OPTIONS")
+    source=getHtml(config.webdriver_path, ggal_options_url)
     soup=BeautifulSoup(source, 'html.parser')
     optionsData=getOptionsData(soup)
     price=getStockPrice(soup)
-    writeOptionsCsv(price,optionsData,dumpFilePath)
+    writeOptionsCsv(price,optionsData,config.ggal_options_dump)
 
+
+scrapeGGALOptions()
