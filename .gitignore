@@ -131,5 +131,4 @@ dmypy.json
 scrape.log
 .DS_Store
 chromedriver
-GGALoptions.txt
-argBonds.txt
+src/dump/*
