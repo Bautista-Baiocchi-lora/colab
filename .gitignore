@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-GGALoptions.txt
 scrape.log
+.DS_Store
+chromedriver
+GGALoptions.txt
+argBonds.txt
