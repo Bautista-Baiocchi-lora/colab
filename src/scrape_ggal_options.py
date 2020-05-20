@@ -1,6 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from config import chromeDriverPath
 
 from bs4 import BeautifulSoup
 
@@ -8,12 +7,12 @@ import datetime as dt
 
 today = dt.datetime.today()
 
-def getHtml(url):
+def getHtml(driverPath, url):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument('--disable-gpu') 
 
-    driver=webdriver.Chrome(options=chrome_options, executable_path=chromeDriverPath)
+    driver=webdriver.Chrome(options=chrome_options, executable_path=driverPath)
     driver.get(url)
     html=driver.page_source
     driver.close()
@@ -44,16 +43,11 @@ def writeOptionsCsv(price,optionsData,filePath):
         dataFile.write(f"{row[0]},{row[1]},{row[2]},{price},{today}\n")
     dataFile.close()
 
-def updateDataFile(filePath,url):
-    source=getHtml(url)
+def scrapeGGALOptions(driverPath,dumpFilePath,url):
+    print(f"[{today}][SCRAPING]: GGAL OPTIONS")
+    source=getHtml(driverPath, url)
     soup=BeautifulSoup(source, 'html.parser')
     optionsData=getOptionsData(soup)
     price=getStockPrice(soup)
-    writeOptionsCsv(price,optionsData,filePath)
+    writeOptionsCsv(price,optionsData,dumpFilePath)
 
-url='https://www.invertironline.com/titulo/cotizacion/BCBA/GGAL/GRUPO-FINANCIERO-GALICIA/opciones'
-filePath='GGALoptions.txt'
-
-updateDataFile(filePath,url)
-
-print(f"Scraped: {today}")
