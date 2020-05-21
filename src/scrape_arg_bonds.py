@@ -17,7 +17,8 @@ def parse(soup):
         bond = ""
         for c in cells[0:2]+cells[3:12]:
             bond += f"{c.text.rstrip().lstrip()},"
-        bonds.append(bond[:-1])
+        bond += f"{config.today}"
+        bonds.append(bond)
     return bonds
 
 def write_to_dump(bonds,file_path):
