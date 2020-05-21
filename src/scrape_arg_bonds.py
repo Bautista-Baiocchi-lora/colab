@@ -14,12 +14,15 @@ def parse(soup):
     bonds = []
     for row in rows:
         cells = row.find_all('td')
-        bond = ""
-        for c in cells[0:2]+cells[3:12]:
-            bond += f"{c.text.rstrip().lstrip()},"
+        bond = f"{cells[0].text.rstrip().lstrip()},"
+        for c in cells[1:2]+cells[7:11]:
+            bond += f"{parse_float(c.text.rstrip().lstrip())},"
         bond += f"{config.today}"
         bonds.append(bond)
     return bonds
+
+def parse_float(text):
+    return float(text.replace('.', '').replace(',','.'))
 
 def write_to_dump(bonds,file_path):
     dataFile=open(file_path,'a+')
